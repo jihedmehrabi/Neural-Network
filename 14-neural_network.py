@@ -52,7 +52,7 @@ class NeuralNetwork:
     def cost(self, Y, A):
         m = Y.shape[1]
         xmp = (1 - Y)
-        cost = -1 / m * (np.sum(Y * np.log(A) + xmp * np.log(1.000001 - A)))
+        cost = -1 / m * (np.sum(Y * np.log(A) + xmp * np.log(1.0000001 - A)))
         return cost
 
     def evaluate(self, X, Y):
@@ -73,3 +73,17 @@ class NeuralNetwork:
         self.__b1 -= alpha * db1
         self.__W2 -= alpha * dW2
         self.__b2 -= alpha * db2
+
+    def train(self, X, Y, iterations=5000, alpha=0.05):
+        if not(isinstance(iterations, int)):
+            raise TypeError("iterations must be an integer")
+        if iterations < 0:
+            raise ValueError("iterations must be a positive integer")
+        if not(isinstance(alpha, float)):
+            raise TypeError("alpha must be a float")
+        if alpha < 0:
+            raise ValueError("alpha must be  positive")
+        for i in range(iterations):
+            self.forward_prop(X)
+            self.gradient_descent(X, Y, self.__A1, self.__A2, alpha)
+        return self.evaluate(X, Y)
