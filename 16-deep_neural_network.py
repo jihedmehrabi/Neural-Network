@@ -1,5 +1,4 @@
 import numpy as np
-import math
 
 
 class DeepNeuralNetwork:
@@ -14,10 +13,10 @@ class DeepNeuralNetwork:
         self.cache = {}
         if not isinstance(layers[0], int) or layers[0] <= 0:
             raise TypeError("layers must be a list of positive integers")
-        self.weights = {f"W{1}": np.random.randn(layers[0], nx) * math.sqrt(2 / nx),
-                        f"b{1}": np.zeros([1, layers[0]])}
+        self.weights = {f"W{1}": np.random.randn(layers[0], nx) * np.sqrt(2 / nx),
+                        f"b{1}": np.zeros(layers[0], 1)}
         for i in range(1, self.L):
             if not isinstance(layers[i], int) or layers[i] <= 0:
                 raise TypeError("layers must be a list of positive integers")
-            self.weights[f"W{i + 1}"] = np.random.randn(layers[i], layers[i - 1]) * math.sqrt(2 / layers[i - 1])
-            self.weights[f"b{i + 1}"] = np.zeros([1, layers[i]])
+            self.weights[f"W{i + 1}"] = np.random.randn(layers[i], layers[i - 1]) * np.sqrt(2 / layers[i - 1])
+            self.weights[f"b{i + 1}"] = np.zeros(layers[i], 1)
